@@ -30,4 +30,11 @@ OUTPUT FORMAT:
 
 FINAL ANSWER:
 """
-        return generate_response(prompt)
+        response = generate_response(prompt)
+        tasks = [
+            line.replace("- ", "").strip()
+            for line in response.split("\n")
+            if line.strip()
+        ]
+
+        return tasks
