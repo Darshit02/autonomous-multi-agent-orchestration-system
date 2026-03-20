@@ -18,6 +18,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 from app.db.base import Base
 from app.models.users import User
+from app.models.memory import Memory
+from app.models.task import Task
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
