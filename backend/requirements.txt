@@ -6,4 +6,6 @@ python-dotenv
 alembic
 pydantic
 pydantic-settings
+faiss-cpu 
+sentence-transformers
 google-generativeai

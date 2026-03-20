@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
-from backend.app.services.memory_service import fetch_memory
+from app.services.llm_service import generate_response
+from app.services.memory_service import fetch_memory
+from app.services.memory_service import semantic_search, store_message
 
 
 def build_context(memory):
@@ -13,45 +15,36 @@ def build_context(memory):
 
     return context.strip()
 
+
 def generate_twin_response(db: Session, user_id: str, message: str):
     memory = fetch_memory(db, user_id)
 
     context = build_context(memory)
 
+    # 🔥 NEW: semantic memory
+    relevant_memories = semantic_search(message)
+
+    semantic_context = "\n".join(relevant_memories)
+
     prompt = f"""
 SYSTEM ROLE:
-You are an advanced AI Twin — a persistent, intelligent assistant that represents the user.
-You have memory of past interactions and must use it to provide contextual, relevant responses.
+You are an AI Twin with long-term semantic memory.
 
 BEHAVIOR RULES:
-- Be clear, concise, and practical
-- Prefer structured answers when helpful
-- Do NOT hallucinate facts
-- If unsure, say "I’m not certain" instead of guessing
-- Maintain continuity with past conversation
-- Prioritize usefulness over verbosity
+- Use relevant past knowledge when helpful
+- Do not repeat irrelevant history
+- Be precise and useful
 
-MEMORY CONTEXT:
-Below is past conversation history. Use it only if relevant.
-
+RECENT CONTEXT:
 {context}
 
-CURRENT USER MESSAGE:
+RELEVANT MEMORIES:
+{semantic_context}
+
+USER:
 {message}
 
-INSTRUCTIONS:
-- Understand the user's intent deeply
-- Use memory if it improves the answer
-- If the request is technical, give actionable steps
-- If the request is vague, ask a clarifying question
-- Avoid repeating memory unless necessary
-
-OUTPUT FORMAT:
-- Default: concise paragraph
-- If needed: bullet points or steps
-- No unnecessary fluff
-
-RESPONSE:
+AI:
 """
 
     response = generate_response(prompt)

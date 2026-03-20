@@ -1,8 +1,14 @@
-from sqlalchemy.orm import Session
-from app.repositories.memory_repo import save_memory, get_user_memory
+from app.services.embedding_service import get_embedding
+from app.services.vector_store import vector_store
+from app.repositories.memory_repo import save_memory
 
-def store_message(db: Session, user_id: str, content: str, role: str):
-    return save_memory(db, user_id, content, role)
+def store_message(db, user_id, content, role):
+    memory = save_memory(db, user_id, content, role)
+    if role == "user":
+        embedding = get_embedding(content)
+        vector_store.add(content, embedding)
 
-def fetch_memory(db: Session, user_id: str):
-    return get_user_memory(db, user_id)
+    return memory
+def semantic_search(query: str, k=3):
+    embedding = get_embedding(query)
+    return vector_store.search(embedding, k)
