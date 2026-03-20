@@ -6,13 +6,16 @@ class CodingAgent(BaseAgent):
     def __init__(self):
         super().__init__("Coder")
 
-    def run(self, task: str) -> str:
+    def run(self, task: str ,context: str = "") -> str:
         prompt = f"""
 ROLE:
 You are a senior software engineer.
 
 OBJECTIVE:
 Write clean, correct, and production-ready code.
+
+CONTEXT FROM OTHER AGENTS:
+{context}
 
 TASK:
 {task}

@@ -6,13 +6,16 @@ class CriticAgent(BaseAgent):
     def __init__(self):
         super().__init__("Critic")
 
-    def run(self, task: str) -> str:
+    def run(self, task: str ,context:str = "") -> str:
         prompt = f"""
 ROLE:
 You are a strict technical reviewer.
 
 OBJECTIVE:
 Improve the quality of the given result.
+
+CONTEXT FROM OTHER AGENTS:
+{context}
 
 INPUT:
 {task}

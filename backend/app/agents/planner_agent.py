@@ -6,13 +6,16 @@ class PlannerAgent(BaseAgent):
     def __init__(self):
         super().__init__("Planner")
 
-    def run(self, task: str) -> str:
+    def run(self, task: str ,context: str = "") -> str:
         prompt = f"""
 ROLE:
 You are a senior project planner.
 
 OBJECTIVE:
 Break down complex tasks into clear, actionable steps.
+
+CONTEXT FROM OTHER AGENTS:
+{context}
 
 TASK:
 {task}

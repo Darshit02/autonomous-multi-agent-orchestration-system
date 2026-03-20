@@ -6,13 +6,16 @@ class ResearchAgent(BaseAgent):
     def __init__(self):
         super().__init__("Research")
 
-    def run(self, task: str) -> str:
+    def run(self, task: str ,context: str = "") -> str:
         prompt = f"""
 ROLE:
 You are an expert research analyst.
 
 OBJECTIVE:
 Provide clear, factual, and useful insights.
+
+CONTEXT FROM OTHER AGENTS:
+{context}
 
 TASK:
 {task}
