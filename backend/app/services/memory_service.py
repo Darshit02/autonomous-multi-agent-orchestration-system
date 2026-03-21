@@ -12,3 +12,6 @@ def store_message(db, user_id, content, role):
 def semantic_search(query: str, k=3):
     embedding = get_embedding(query)
     return vector_store.search(embedding, k)
+
+def get_relevant_memories(query: str, k: int = 5):
+    return semantic_search(query, k)

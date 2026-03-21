@@ -5,8 +5,8 @@ class WorkingMemory:
     def add(self, agent_name: str, task: str, result: str):
         self.logs.append({
             "agent": agent_name,
-            "task" : task,
-            "result" : result
+            "task": task,
+            "result": result
         })
 
     def get_context(self):
