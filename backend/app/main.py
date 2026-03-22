@@ -7,6 +7,7 @@ from app.api import task
 from app.api import execute
 from app.api import chat
 from app.api import auth
+from app.api import job
 
 setup_logger()
 
@@ -17,7 +18,8 @@ app.include_router(user.router, prefix="/api")
 app.include_router(task.router, prefix="/api")
 app.include_router(execute.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
-app.include_router(auth.router , prefix="/api")
+app.include_router(auth.router, prefix="/api")
+app.include_router(job.router, prefix="/api")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,8 +28,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
-def root_route() :
+def root_route():
     return {
-        "message" : "Welcome to the AI OS"
+        "message": "Welcome to the AI OS"
     }

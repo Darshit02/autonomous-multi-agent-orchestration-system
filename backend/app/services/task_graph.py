@@ -10,28 +10,29 @@ planner = PlannerAgent()
 critic = CriticAgent()
 
 
-def execute_task_graph(main_task: str, max_iterations=3):
+def execute_task_graph(db, user_id: str, main_task: str, max_iterations=3):
     planner = PlannerAgent()
     critic = CriticAgent()
     evaluator = EvaluatorAgent()
-    memory = WorkingMemory()
-
-    subtasks = planner.run(main_task)
 
     best_result = None
 
+    subtasks = planner.run(main_task)
+
     for iteration in range(max_iterations):
         results = []
-        memory = WorkingMemory()
+        memory = WorkingMemory() 
 
         for subtask in subtasks:
             agent = select_agent(subtask)
-            context = build_intelligent_context(subtask)
+            context = build_intelligent_context(db, subtask, user_id)
+
             result = agent.run(subtask, context)
             memory.add(agent.name, subtask, result)
-            results.append(result)
-        combined = "\n\n".join(results)
 
+            results.append(result)
+
+        combined = "\n\n".join(results)
         improved = critic.run(combined)
         evaluation = evaluator.run(improved)
 

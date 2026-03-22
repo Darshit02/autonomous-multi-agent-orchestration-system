@@ -1,24 +1,32 @@
+from app.agents.router_agent import RouterAgent
 from app.agents.planner_agent import PlannerAgent
-from app.agents.critic_agent import CriticAgent
-from app.agents.coding_agent import CodingAgent
 from app.agents.research_agent import ResearchAgent
+from app.agents.coding_agent import CodingAgent
+from app.agents.critic_agent import CriticAgent
+
+router = RouterAgent()
 
 planner = PlannerAgent()
 research = ResearchAgent()
 coder = CodingAgent()
 critic = CriticAgent()
 
+AGENT_MAP = {
+    "planner": planner,
+    "research": research,
+    "coder": coder,
+    "critic": critic
+}
+
+cache = {}
 
 def select_agent(task: str):
-    task_lower = task.lower()
+    if task in cache:
+        return cache[task]
 
-    if "plan" in task_lower or "steps" in task_lower:
-        return planner
-    elif "research" in task_lower or "analyze" in task_lower:
-        return research
+    agent_name = router.run(task)
 
-    elif "code" in task_lower or "build" in task_lower:
-        return coder
+    agent = AGENT_MAP.get(agent_name, research)
 
-    else:
-        return research
+    cache[task] = agent
+    return agent

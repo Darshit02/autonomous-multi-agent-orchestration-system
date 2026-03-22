@@ -10,6 +10,8 @@ faiss-cpu
 sentence-transformers
 google-generativeai
 python-jose 
-passlib[bcrypt]
+bcrypt
 redis 
 rq
+python-multipart
+pgvector

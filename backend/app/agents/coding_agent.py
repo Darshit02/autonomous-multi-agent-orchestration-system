@@ -1,43 +1,37 @@
-from app.agents.base_agent import BaseAgent
+from app.tools.executor import execute_tool
 from app.services.llm_service import generate_response
 
-
-class CodingAgent(BaseAgent):
-    def __init__(self):
-        super().__init__("Coder")
-
-    def run(self, task: str ,context: str = "") -> str:
-        prompt = f"""
+def run(self, task: str, context: str = "") -> str:
+    prompt = f"""
 ROLE:
 You are a senior software engineer.
-
-OBJECTIVE:
-Write clean, correct, and production-ready code.
-
-CONTEXT (IMPORTANT):
-Below is compressed, relevant memory from previous steps.
-
-{context}
 
 TASK:
 {task}
 
+CONTEXT:
+{context}
+
 INSTRUCTIONS:
-- Use context only if helpful
-- Build on previous work
-- Avoid repetition
-- Write working code (no pseudo-code)
-- Follow best practices
-- Keep it simple and readable
-- Add minimal explanation
+- If tool needed, return ONLY valid JSON:
 
-OUTPUT FORMAT:
-CODE:
-<your code here>
+{{
+  "tool": "python",
+  "input": "<python code>"
+}}
 
-EXPLANATION:
-<short explanation>
-
-FINAL ANSWER:
+- If no tool needed, return plain text
 """
-        return generate_response(prompt)
+
+    response = generate_response(prompt)
+    if response.strip().startswith("{"):
+        result = execute_tool(response)
+
+        return f"""
+Tool executed.
+
+Result:
+{result}
+"""
+
+    return response

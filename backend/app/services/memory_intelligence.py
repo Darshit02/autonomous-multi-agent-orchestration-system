@@ -31,8 +31,8 @@ OUTPUT:
 
     return generate_response(prompt)
 
-def build_intelligent_context(query: str):
-    memories = get_relevant_memories(query)
+def build_intelligent_context(db, query: str, user_id: str):
+    memories = get_relevant_memories(db, query, user_id)
     ranked = rank_memories(memories, query)
     compressed = compress_memory(ranked)
 

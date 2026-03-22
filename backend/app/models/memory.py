@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text
+from pgvector.sqlalchemy import Vector
 from app.db.base import Base
 
 class Memory(Base):
@@ -8,3 +9,4 @@ class Memory(Base):
     user_id = Column(String, index=True)
     content = Column(Text)
     role = Column(String)  # user / ai
+    embedding = Column(Vector(384))  # dimension from model

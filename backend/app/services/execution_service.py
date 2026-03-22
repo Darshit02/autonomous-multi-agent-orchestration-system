@@ -7,7 +7,7 @@ critic = CriticAgent()
 
 def execute_task(db: Session, task):
     update_task_status(db, task.id, "running")
-    result = execute_task_graph(task.description)
+    result = execute_task_graph(db, task.user_id, task.description)
     improved_result = critic.run(result)
     update_task_status(db,task.id , "done")
     return improved_result
