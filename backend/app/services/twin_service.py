@@ -20,8 +20,6 @@ def generate_twin_response(db: Session, user_id: str, message: str):
     memory = fetch_memory(db, user_id)
 
     context = build_context(memory)
-
-    # 🔥 NEW: semantic memory
     relevant_memories = semantic_search(message)
 
     semantic_context = "\n".join(relevant_memories)

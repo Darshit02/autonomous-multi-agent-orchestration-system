@@ -9,3 +9,7 @@ pydantic-settings
 faiss-cpu 
 sentence-transformers
 google-generativeai
+python-jose 
+passlib[bcrypt]
+redis 
+rq
