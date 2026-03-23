@@ -21,6 +21,16 @@ def get_tasks(db: Session, user_id: str):
 
 def update_task_status(db: Session, task_id: int, status: str):
     task = db.query(Task).filter(Task.id == task_id).first()
-    task.status = status
-    db.commit()
+    if task:
+        task.status = status
+        db.commit()
+    return task
+
+
+def update_task_result(db: Session, task_id: int, status: str, result: str):
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if task:
+        task.status = status
+        task.result = result
+        db.commit()
     return task
