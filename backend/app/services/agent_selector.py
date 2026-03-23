@@ -3,6 +3,7 @@ from app.agents.planner_agent import PlannerAgent
 from app.agents.research_agent import ResearchAgent
 from app.agents.coding_agent import CodingAgent
 from app.agents.critic_agent import CriticAgent
+from app.agents.super_agent import SuperAgent
 
 router = RouterAgent()
 
@@ -10,12 +11,14 @@ planner = PlannerAgent()
 research = ResearchAgent()
 coder = CodingAgent()
 critic = CriticAgent()
+super_agent = SuperAgent()
 
 AGENT_MAP = {
     "planner": planner,
     "research": research,
     "coder": coder,
-    "critic": critic
+    "critic": critic,
+    "super": super_agent
 }
 
 cache = {}

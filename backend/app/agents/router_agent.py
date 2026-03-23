@@ -18,6 +18,7 @@ AVAILABLE AGENTS:
 - research → for gathering info or explanation
 - coder → for writing code or technical implementation
 - critic → for improving or reviewing output
+- super → for complex, multi-step tasks requiring multiple tools
 
 TASK:
 {task}
@@ -28,7 +29,7 @@ INSTRUCTIONS:
 - Return ONLY agent name
 
 OUTPUT FORMAT:
-planner OR research OR coder OR critic
+planner OR research OR coder OR critic OR super
 """
 
         return generate_response(prompt).strip().lower()

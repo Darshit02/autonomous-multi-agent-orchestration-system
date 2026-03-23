@@ -52,8 +52,10 @@ OUTPUT FORMAT:
 1. Step one
 2. Step two
 3. Step three
-
-FINAL ANSWER:
-"""
-        
-        return json.loads(response)
+        FINAL ANSWER:
+        """
+        response = generate_response(prompt)
+        try:
+            return json.loads(response)
+        except:
+            return response
