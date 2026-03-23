@@ -1,5 +1,6 @@
 from app.agents.base_agent import BaseAgent
 from app.services.llm_service import generate_response
+import json
 
 
 class PlannerAgent(BaseAgent):
@@ -30,6 +31,22 @@ INSTRUCTIONS:
 - Keep each step concise and executable
 - Avoid vague steps
 - Order steps correctly
+INSTRUCTIONS:
+- Return tasks with dependencies
+- Use this JSON format ONLY:
+
+[
+  {{
+    "id": "task1",
+    "description": "Design database",
+    "depends_on": []
+  }},
+  {{
+    "id": "task2",
+    "description": "Build API",
+    "depends_on": ["task1"]
+  }}
+]
 
 OUTPUT FORMAT:
 1. Step one
@@ -38,11 +55,5 @@ OUTPUT FORMAT:
 
 FINAL ANSWER:
 """
-        response = generate_response(prompt)
-        tasks = [
-            line.replace("- ", "").strip()
-            for line in response.split("\n")
-            if line.strip()
-        ]
-
-        return tasks
+        
+        return json.loads(response)

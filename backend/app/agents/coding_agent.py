@@ -13,25 +13,23 @@ CONTEXT:
 {context}
 
 INSTRUCTIONS:
-- If tool needed, return ONLY valid JSON:
+Return JSON:
 
 {{
-  "tool": "python",
-  "input": "<python code>"
+  "result": "...",
+  "insights": "...",
+  "next_suggestions": "..."
 }}
 
 - If no tool needed, return plain text
 """
 
     response = generate_response(prompt)
-    if response.strip().startswith("{"):
-        result = execute_tool(response)
-
-        return f"""
-Tool executed.
-
-Result:
-{result}
-"""
-
-    return response
+    try:
+        return json.loads(response)
+    except:
+        return {
+            "result": response,
+            "insights": "",
+            "next_suggestions": ""
+        }
